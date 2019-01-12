@@ -16,7 +16,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 @Api( description="API pour es opérations CRUD sur les produits.")
@@ -45,6 +48,28 @@ public class ProductController {
         produitsFiltres.setFilters(listDeNosFiltres);
 
         return produitsFiltres;
+    }
+    
+    
+    //Calculer la marge de chaque produit
+
+    @RequestMapping(value = "/AdminProduits", method = RequestMethod.GET)
+
+    public MappingJacksonValue calculerMargeProduit () {
+    	
+        Iterable<Product> produits = productDao.findAll();
+        Iterator<Product> produitIterator = produits.iterator();
+        
+        Map<String, Integer> produitsProfit = new HashMap<>();
+
+        while(produitIterator.hasNext()) {
+        	Product tmp = produitIterator.next();        	
+        	produitsProfit.put(tmp.toString(), tmp.getPrix() - tmp.getPrixAchat());
+        }
+
+        MappingJacksonValue produitsJackson = new MappingJacksonValue(produitsProfit);
+
+        return produitsJackson;
     }
 
 
