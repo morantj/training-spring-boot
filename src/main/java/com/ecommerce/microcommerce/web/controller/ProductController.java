@@ -32,9 +32,7 @@ public class ProductController {
 
 
     //Récupérer la liste des produits
-
     @RequestMapping(value = "/Produits", method = RequestMethod.GET)
-
     public MappingJacksonValue listeProduits() {
 
         Iterable<Product> produits = productDao.findAll();
@@ -52,9 +50,7 @@ public class ProductController {
     
     
     //Calculer la marge de chaque produit
-
     @RequestMapping(value = "/AdminProduits", method = RequestMethod.GET)
-
     public MappingJacksonValue calculerMargeProduit () {
     	
         Iterable<Product> produits = productDao.findAll();
@@ -71,12 +67,28 @@ public class ProductController {
 
         return produitsJackson;
     }
+    
+    //Calculer la marge de chaque produit
+    @RequestMapping(value = "/ProduitsSorted", method = RequestMethod.GET)
+    public MappingJacksonValue  trierProduitsParOrdreAlphabetique () {
+
+        Iterable<Product> produits = productDao.findAllByOrderByNom();
+        
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
+
+        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
+
+        MappingJacksonValue produitsFiltres = new MappingJacksonValue(produits);
+
+        produitsFiltres.setFilters(listDeNosFiltres);
+
+        return produitsFiltres;
+    }
 
 
     //Récupérer un produit par son Id
     @ApiOperation(value = "Récupère un produit grâce à son ID à condition que celui-ci soit en stock!")
     @GetMapping(value = "/Produits/{id}")
-
     public Product afficherUnProduit(@PathVariable int id) {
 
         Product produit = productDao.findById(id);
@@ -87,11 +99,8 @@ public class ProductController {
     }
 
 
-
-
     //ajouter un produit
     @PostMapping(value = "/Produits")
-
     public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
 
         Product productAdded =  productDao.save(product);
