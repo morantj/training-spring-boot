@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -23,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Api( description="API pour es opérations CRUD sur les produits.")
+@Api( description="API for CRUD operations of Product.")
 
 @RestController
 public class ProductController {
@@ -32,8 +34,9 @@ public class ProductController {
     private ProductDao productDao;
 
 
-    //Récupérer la liste des produits
     @RequestMapping(value = "/Produits", method = RequestMethod.GET)
+    @ApiOperation(value = "Returns MappingJacksonValue of unsorted products.")
+
     public MappingJacksonValue listeProduits() {
 
         Iterable<Product> produits = productDao.findAll();
@@ -48,10 +51,11 @@ public class ProductController {
 
         return produitsFiltres;
     }
+
     
-    
-    //Calculer la marge de chaque produit
     @RequestMapping(value = "/AdminProduits", method = RequestMethod.GET)
+    @ApiOperation(value = "Returns MappingJacksonValue of products with their benefits.")
+
     public MappingJacksonValue calculerMargeProduit () {
     	
         Iterable<Product> produits = productDao.findAll();
@@ -68,9 +72,11 @@ public class ProductController {
 
         return produitsJackson;
     }
+
     
-    //Calculer la marge de chaque produit
     @RequestMapping(value = "/ProduitsSorted", method = RequestMethod.GET)
+    @ApiOperation(value = "Returns MappingJacksonValue of sorted products.")
+
     public MappingJacksonValue  trierProduitsParOrdreAlphabetique () {
 
         Iterable<Product> produits = productDao.findAllByOrderByNom();
@@ -87,10 +93,13 @@ public class ProductController {
     }
 
 
-    //Récupérer un produit par son Id
-    @ApiOperation(value = "Récupère un produit grâce à son ID à condition que celui-ci soit en stock!")
     @GetMapping(value = "/Produits/{id}")
-    public Product afficherUnProduit(@PathVariable int id) {
+    @ApiOperation(value = "Returns a Product selected by its ID.")
+
+    public Product afficherUnProduit(
+            @ApiParam("Id of the product to find. Cannot be empty.")
+            @PathVariable int id) 
+        {
 
         Product produit = productDao.findById(id);
 
@@ -100,12 +109,16 @@ public class ProductController {
     }
 
 
-    //ajouter un produit
     @PostMapping(value = "/Produits")
-    public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
-    	if(product.getPrix()==0) throw new ProduitGratuitException("HOPOP, Police des Datas. Le prix n'est pas en rêgle.");
+    @ApiOperation(value = "Adds a new product.")
 
-    	
+    public ResponseEntity<Void> ajouterProduit(
+            @ApiParam("RequestBody of the product to add. Cannot be empty.")
+            @Valid @RequestBody Product product) 
+        {
+
+    	if(product.getPrix()==0) throw new ProduitGratuitException("HOPOP, Le prix n'est pas en rêgle, buvez un coup ça ira mieux..");
+
         Product productAdded =  productDao.save(product);
 
         if (productAdded == null)
@@ -122,20 +135,30 @@ public class ProductController {
     }
 
     @DeleteMapping (value = "/Produits/{id}")
-    public void supprimerProduit(@PathVariable int id) {
+    @ApiOperation(value = "Deletes a product selected by its ID.")
+
+    public void supprimerProduit(
+            @ApiParam("Id of the product to remove. Cannot be empty.")
+            @PathVariable int id) 
+        {
 
         productDao.delete(id);
     }
 
     @PutMapping (value = "/Produits")
-    public void updateProduit(@RequestBody Product product) {
+    @ApiOperation(value = "Updates a product.")
+    public void updateProduit(
+            @ApiParam("RequestBody of the product to add. Cannot be empty.")
+            @RequestBody Product product) 
+        {
+
     	if(product.getPrix()==0) throw new ProduitGratuitException("HOPOP, Police des Datas. Le prix n'est pas en rêgle.");
 
         productDao.save(product);
+        
     }
 
 
-    //Pour les tests
     @GetMapping(value = "test/produits/{prix}")
     public List<Product>  testeDeRequetes(@PathVariable int prix) {
 
