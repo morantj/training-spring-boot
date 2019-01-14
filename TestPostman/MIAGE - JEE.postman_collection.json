@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "66c294d7-6108-4c9e-ae38-668ac6b0f726",
+		"name": "MIAGE - JEE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Produits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/Produits",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "Get All Products"
+			},
+			"response": []
+		},
+		{
+			"name": "Produits/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/Produits/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Produits",
+						"1"
+					]
+				},
+				"description": "Get Product By ID"
+			},
+			"response": []
+		},
+		{
+			"name": "ProduitsSorted",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/ProduitsSorted",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ProduitsSorted"
+					]
+				},
+				"description": "Get All Products Sorted By Name"
+			},
+			"response": []
+		},
+		{
+			"name": "AdminProduits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/AdminProduits",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AdminProduits"
+					]
+				},
+				"description": "Get All Product's profit"
+			},
+			"response": []
+		},
+		{
+			"name": "Produits",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nom\": \"PC Master Race\",\n\t\"prix\": \"1000\",\n\t\"prixAchat\": 444\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/Produits",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "Add New Product"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nom\": \"PC Master Race\",\n\t\"prix\": \"1000\",\n\t\"prixAchat\": 444\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/Produits/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Produits",
+						"4"
+					]
+				},
+				"description": "Delete Product By ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 1,\n\t\"nom\": \"PC Sous Race\",\n\t\"prix\": \"300\",\n\t\"prixAchat\": 150\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/Produits",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "Update Product"
+			},
+			"response": []
+		}
+	]
+}
